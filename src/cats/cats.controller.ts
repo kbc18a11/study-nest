@@ -1,4 +1,4 @@
-import { Controller, Get, Req, Post, Param, Body } from '@nestjs/common';
+import { Controller, Get, Req, Post, Param, Body, ParseIntPipe } from '@nestjs/common';
 import { CreateCatDto } from './dto/create-cat.dto';
 import { Request } from 'express';
 import { CatsService } from './cats.service';
@@ -20,9 +20,8 @@ export class CatsController {
 
 
     @Get(':id')
-    findOne(@Param() params): string {
-        console.log(params.id);
-        return `This action returns a #${params.id} cat`;
+    async findOne(@Param('id', ParseIntPipe) id: number) {
+        return this.catsService.findOne(id);
     }
 
 }
