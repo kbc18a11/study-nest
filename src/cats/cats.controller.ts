@@ -1,8 +1,9 @@
-import { Controller, Get, Req, Post, Param, Body, ParseIntPipe } from '@nestjs/common';
+import { Controller, Get, Req, Post, Param, Body, ParseIntPipe, UsePipes } from '@nestjs/common';
 import { CreateCatDto } from './dto/create-cat.dto';
 import { Request } from 'express';
 import { CatsService } from './cats.service';
 import { Cat } from './interfaces/cat.interface';
+import { ValidationPipe } from "../validation/JoiValidationPipe.pipe";
 
 @Controller('cats')
 export class CatsController {
@@ -14,7 +15,7 @@ export class CatsController {
     }
 
     @Post()
-    async create(@Body() createCatDto: CreateCatDto) {
+    async create(@Body(new ValidationPipe()) createCatDto: CreateCatDto) {
         this.catsService.create(createCatDto);
     }
 
